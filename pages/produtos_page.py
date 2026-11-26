@@ -1,5 +1,5 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support.ui import Select, WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 
@@ -7,6 +7,9 @@ class ProdutosPage:
     TITULO = (By.CLASS_NAME, "title")
     ICONE_CARRINHO = (By.CLASS_NAME, "shopping_cart_link")
     BADGE_CARRINHO = (By.CLASS_NAME, "shopping_cart_badge")
+    ORDENACAO = (By.CLASS_NAME, "product_sort_container")
+    NOMES_PRODUTOS = (By.CLASS_NAME, "inventory_item_name")
+    PRECOS_PRODUTOS = (By.CLASS_NAME, "inventory_item_price")
 
     def __init__(self, driver):
         self.driver = driver
@@ -24,3 +27,17 @@ class ProdutosPage:
 
     def abrir_carrinho(self):
         self.driver.find_element(*self.ICONE_CARRINHO).click()
+
+    def ordenar_por(self, valor):
+        dropdown = self.wait.until(EC.element_to_be_clickable(self.ORDENACAO))
+        Select(dropdown).select_by_value(valor)
+
+    def obter_nomes_produtos(self):
+        elementos = self.driver.find_elements(*self.NOMES_PRODUTOS)
+        return [elemento.text for elemento in elementos]
+
+    def obter_precos_produtos(self):
+        elementos = self.driver.find_elements(*self.PRECOS_PRODUTOS)
+        return [float(elemento.text.replace("$", "")) for elemento in elementos]
+
+    
