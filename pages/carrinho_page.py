@@ -5,6 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 
 class CarrinhoPage:
     NOMES_ITENS = (By.CSS_SELECTOR, ".cart_item .inventory_item_name")
+    BOTAO_CHECKOUT = (By.ID, "checkout")
 
     def __init__(self, driver):
         self.driver = driver
@@ -15,3 +16,6 @@ class CarrinhoPage:
         self.wait.until(EC.visibility_of_element_located(self.NOMES_ITENS))
         elementos = self.driver.find_elements(*self.NOMES_ITENS)
         return [elemento.text for elemento in elementos]
+
+    def iniciar_checkout(self):
+        self.wait.until(EC.element_to_be_clickable(self.BOTAO_CHECKOUT)).click()
