@@ -12,9 +12,9 @@ jobs:
 
     steps:
       - name: Baixar o código
-        uses: actions/checkout@v4   # Baixa o seu código para a máquina / Ela começa vazia
+        uses: actions/checkout@v6   # Baixa o seu código para a máquina / Ela começa vazia
       - name: Instalar Python
-        uses: actions/setup-python@v5    # Instala o Python e guarda os pacotes em cache / Deixa as próximas execuções mais rápidas
+        uses: actions/setup-python@v6    # Instala o Python e guarda os pacotes em cache / Deixa as próximas execuções mais rápidas
         with:
           python-version: "3.12"
           cache: pip
