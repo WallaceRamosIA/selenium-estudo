@@ -7,21 +7,20 @@ on:
   workflow_dispatch:    # Cria um botão Run workflow para rodar manualmente / Útil para testar sem fazer commit
 
 jobs:
-  testes:
-    runs-on: ubuntu-latest
+  testes: 
+    runs-on: ubuntu-latest  # Máquina Linux fornecida pelo GitHub / Já vem com o Chrome instalado, e o Selenium baixa o driver sozinho
 
     steps:
       - name: Baixar o código
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@v4   # Baixa o seu código para a máquina / Ela começa vazia
       - name: Instalar Python
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5    # Instala o Python e guarda os pacotes em cache / Deixa as próximas execuções mais rápidas
         with:
           python-version: "3.12"
           cache: pip
 
       - name: Instalar dependências
-        run: pip install -r requirements.txt
+        run: pip install -r requirements.txt    
 
       - name: Rodar os testes (headless)
         run: pytest -v --headless --html=reports/relatorio.html --self-contained-html

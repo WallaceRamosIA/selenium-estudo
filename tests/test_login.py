@@ -9,7 +9,7 @@ def test_login_com_sucesso(driver):
     login.fazer_login("standard_user", "secret_sauce")
 
     produtos = ProdutosPage(driver)
-    assert produtos.obter_titulo() == "Products"
+    assert produtos.obter_titulo() == "Produtos"
     assert "inventory" in driver.current_url
 
 
