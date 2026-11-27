@@ -1,9 +1,10 @@
 from pages.login_page import LoginPage
 from pages.produtos_page import ProdutosPage
 from pages.carrinho_page import CarrinhoPage
-from pages.login_page import LoginPage
+
 
 def test_adicionar_produto_ao_carrinho(driver):
+    """Um produto adicionado atualiza o ícone do carrinho e aparece na página do carrinho."""
     login = LoginPage(driver)
     login.abrir()
     login.fazer_login("standard_user", "secret_sauce")

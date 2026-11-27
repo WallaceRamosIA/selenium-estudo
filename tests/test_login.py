@@ -1,9 +1,11 @@
 import pytest
+
 from pages.login_page import LoginPage
 from pages.produtos_page import ProdutosPage
 
 
 def test_login_com_sucesso(driver):
+    """Credenciais válidas levam à página de produtos."""
     login = LoginPage(driver)
     login.abrir()
     login.fazer_login("standard_user", "secret_sauce")
@@ -24,6 +26,7 @@ def test_login_com_sucesso(driver):
     ids=["senha_invalida", "usuario_bloqueado", "usuario_vazio", "senha_vazia"],
 )
 def test_login_invalido(driver, usuario, senha, erro_esperado):
+    """Logins inválidos mostram a mensagem de erro certa e não entram no sistema."""
     login = LoginPage(driver)
     login.abrir()
     login.fazer_login(usuario, senha)

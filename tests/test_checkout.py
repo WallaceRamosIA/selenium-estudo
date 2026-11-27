@@ -1,13 +1,14 @@
 import pytest
 
-from pages.carrinho_page import CarrinhoPage
-from pages.checkout_page import CheckoutPage
 from pages.login_page import LoginPage
 from pages.produtos_page import ProdutosPage
+from pages.carrinho_page import CarrinhoPage
+from pages.checkout_page import CheckoutPage
 
 
 @pytest.fixture
 def carrinho(driver):
+    """Faz login, adiciona a mochila e abre o carrinho, pronto para o checkout."""
     login = LoginPage(driver)
     login.abrir()
     login.fazer_login("standard_user", "secret_sauce")
@@ -19,6 +20,7 @@ def carrinho(driver):
 
 
 def test_checkout_completo(driver, carrinho):
+    """Fluxo completo: dados válidos levam à confirmação do pedido."""
     carrinho.iniciar_checkout()
 
     checkout = CheckoutPage(driver)
@@ -40,6 +42,7 @@ def test_checkout_completo(driver, carrinho):
     ids=["nome_vazio", "sobrenome_vazio", "cep_vazio"],
 )
 def test_checkout_dados_invalidos(driver, carrinho, nome, sobrenome, cep, erro_esperado):
+    """Campos obrigatórios vazios mostram o erro certo e bloqueiam o avanço."""
     carrinho.iniciar_checkout()
 
     checkout = CheckoutPage(driver)
