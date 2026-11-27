@@ -1,0 +1,34 @@
+name: Testes automatizados
+# GitHub Actions Contiunuous Integration (CI) 
+on:
+  push:
+    branches: [main]   # Dispara a cada envio para a branch main / É o "a cada push"
+  pull_request:        # Dispara também em pull requests / Padrão de projetos em equipe
+  workflow_dispatch:    # Cria um botão Run workflow para rodar manualmente / Útil para testar sem fazer commit
+
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar o código
+        uses: actions/checkout@v4
+
+      - name: Instalar Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Instalar dependências
+        run: pip install -r requirements.txt
+
+      - name: Rodar os testes (headless)
+        run: pytest -v --headless --html=reports/relatorio.html --self-contained-html
+
+      - name: Guardar relatório e screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: relatorios
+          path: reports/
