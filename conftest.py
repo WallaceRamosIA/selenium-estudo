@@ -21,6 +21,17 @@ def driver(request):
     """Abre o Chrome para cada teste e o fecha no final, mesmo se o teste falhar."""
     opcoes = Options()
 
+    # Desliga o gerenciador de senhas e o aviso de senha vazada do Chrome,
+    # que abre um popup e bloqueia a página após o login.
+    opcoes.add_experimental_option(
+        "prefs",
+        {
+            "credentials_enable_service": False,
+            "profile.password_manager_enabled": False,
+            "profile.password_manager_leak_detection": False,
+        },
+    )
+
     if request.config.getoption("--headless"):
         opcoes.add_argument("--headless=new")
         # Sem janela, o Chrome usaria uma tela minúscula e esconderia elementos.
