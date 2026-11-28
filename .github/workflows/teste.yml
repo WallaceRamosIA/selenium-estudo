@@ -1,33 +1,34 @@
 name: Testes automatizados
-# GitHub Actions Contiunuous Integration (CI) 
+
 on:
   push:
-    branches: [main]   # Dispara a cada envio para a branch main / É o "a cada push"
-  pull_request:        # Dispara também em pull requests / Padrão de projetos em equipe
-  workflow_dispatch:    # Cria um botão Run workflow para rodar manualmente / Útil para testar sem fazer commit
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
 
 jobs:
-  testes: 
-    runs-on: ubuntu-latest  # Máquina Linux fornecida pelo GitHub / Já vem com o Chrome instalado, e o Selenium baixa o driver sozinho
+  testes:
+    runs-on: ubuntu-latest
 
     steps:
       - name: Baixar o código
-        uses: actions/checkout@v6   # Baixa o seu código para a máquina / Ela começa vazia
+        uses: actions/checkout@v6
+
       - name: Instalar Python
-        uses: actions/setup-python@v6    # Instala o Python e guarda os pacotes em cache / Deixa as próximas execuções mais rápidas
+        uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
 
       - name: Instalar dependências
-        run: pip install -r requirements.txt    
+        run: pip install -r requirements.txt
 
       - name: Rodar os testes (headless)
         run: pytest -v --headless --html=reports/relatorio.html --self-contained-html
 
       - name: Guardar relatório e screenshots
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: relatorios
           path: reports/
